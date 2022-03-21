@@ -10,6 +10,8 @@
     "start:client": "cd packages/client && yarn start",
     "start:api": "cd packages/api && yarn start",
     "dev:api": "cd packages/api && yarn dev",
+    "test:client-dev": "cd packages/client && yarn test",
+    "test:client": "cd packages/client && yarn test --watchAll=false",
     "start:all": "concurrently \"yarn start:client\" \"yarn start:api\" --names CLIENT,API -c blue,green",
     "dev:all": "concurrently \"yarn start:client\" \"yarn dev:api\" --names CLIENT,API -c blue,green"
   },

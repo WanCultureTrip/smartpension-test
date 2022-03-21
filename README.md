@@ -1,3 +1,26 @@
+# Wan smart pension test
+
+## Install and run
+
+Require `yarn` and `node version 14.10.0`
+```
+yarn install
+```
+
+```
+npx lerna bootstrap
+yarn start:all
+```
+## Run test
+
+```
+yarn run test:client
+```
+or for test watch
+```
+yarn run test:client-dev
+```
+
 # Traveller - Smart front end take-home technical test
 
 ## Goals
