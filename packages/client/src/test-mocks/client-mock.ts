@@ -66,7 +66,7 @@ export const clientMock = [
         },
       },
     },
-    result: { updateCity: { ...mockCityList[3], visited: true } }, // jest.fn(() => ({ ...mockCityList[3], visited: true })),
+    result: { data: { updateCity: { ...mockCityList[3], visited: true } } },
   },
   {
     request: {

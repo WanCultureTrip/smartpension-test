@@ -20,7 +20,7 @@ export const EditCardMenu: FC<CityCardProps> = ({ id, visited, wishlist }) => {
 
   return (
     <>
-      {loading && <Spinner mt="1rem" />}
+      {loading && <Spinner aria-label="edit-card-spinner" mt="1rem" />}
       {error && (
         <Alert mt="1rem" status="error">
           <AlertIcon />

@@ -23,6 +23,8 @@ const updateCache = (filter: VisitedWishListType, store: ApolloCache<CitiesType>
     variables: { filter },
   })
 
+  // @TODO use library to handle immutability, this will reduce lines of code and reliability
+
   // remove/add city to cache
   if (cachedData) {
     // add update remove
@@ -55,28 +57,19 @@ const updateCache = (filter: VisitedWishListType, store: ApolloCache<CitiesType>
 export const useUpdateCity = (): UpdateCityReturn => {
   const [updateCity, { loading, error }] = useMutation(UPDATE_CITY)
 
-  // @ TODO these can be merged, the only difference is the filter
-  const onUpdateVisited = useCallback((update: UpdateType) => {
+  const onUpdate = useCallback((update: UpdateType, filter: VisitedWishListType) => {
     updateCity({
       variables: {
         input: update,
       },
       update: (store, { data }) => {
-        updateCache({ visited: true }, store, data)
+        updateCache(filter, store, data)
       },
     })
   }, [])
 
-  const onUpdateWishlist = useCallback((update: UpdateType) => {
-    updateCity({
-      variables: {
-        input: update,
-      },
-      update: (store, { data }) => {
-        updateCache({ wishlist: true }, store, data)
-      },
-    })
-  }, [])
+  const onUpdateVisited = (update: UpdateType) => onUpdate(update, { visited: true })
+  const onUpdateWishlist = (update: UpdateType) => onUpdate(update, { wishlist: true })
 
   return {
     loading,

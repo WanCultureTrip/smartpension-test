@@ -1,4 +1,4 @@
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, waitFor, findByLabelText } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { Home } from '../Home'
 import { MockedProvider } from '@apollo/client/testing'
@@ -44,7 +44,7 @@ describe('<Home /> component', () => {
   })
 
   test('should search for cities and click on visited and wish list', async () => {
-    const { input, getByLabelText, getAllByLabelText, findAllByLabelText } = renderComp()
+    const { input, getByLabelText, getAllByLabelText, findAllByLabelText, queryByLabelText } = renderComp()
 
     // put Lo into the search input field
     fireEvent.change(input, { target: { value: 'Lo' } })
@@ -64,10 +64,23 @@ describe('<Home /> component', () => {
     expect(allVisitedCheckbox).toBeDefined()
 
     // last city should have visited false
-    const firstVisitedCheckbox = allVisitedCheckbox[3] as HTMLInputElement
-    expect(firstVisitedCheckbox.checked).toBe(false)
+    const lastVisitedCheckbox = allVisitedCheckbox[3] as HTMLInputElement
+    expect(lastVisitedCheckbox.checked).toBe(false)
 
-    // click the first city checkbox
-    fireEvent.click(firstVisitedCheckbox)
+    // click the last city checkbox
+    fireEvent.click(lastVisitedCheckbox)
+
+    // last city checkbox should be null in loading state
+    const allVisitedCheckboxAgain = await findAllByLabelText('visited-checkbox')
+    allVisitedCheckboxAgain.forEach((checkbox, index) => {
+      const checkboxElement = checkbox as HTMLInputElement
+      expect(checkboxElement).toBeDefined()
+      if (index === 3) {
+        expect(checkboxElement).toBeNull()
+      }
+    })
+
+    // expect last country card to display loading spinner
+    expect(queryByLabelText('edit-card-spinner')).toBeDefined()
   })
 })
